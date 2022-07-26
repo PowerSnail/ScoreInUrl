@@ -7,7 +7,7 @@ export const default_score = `X: 1
 T: Partita III - Preludio
 M: 3/4
 L: 1/16
-K: Emin
+K: Emaj
 z2 e'd' e'2b2g2b2 | (efed e2)B2G2B2 | EBFB GBAB GBFB |
 Eedc Bedc BAGF    | EBFB GBAB GBFB  | Eedc Bedc BAGF |
 EFGA Bcde fgaf    | gbef gabc decd  | ebab gbab gbfb |
