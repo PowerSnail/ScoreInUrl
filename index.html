@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Score in URL</title>
+  </head>
+  <body class="h-screen w-screen flex flex-col max-w-screen">
+    <header class="w-full p-2 flex-none bg-orange-700 flex items-center gap-2">
+      <img src="/icon.svg" class="h-10 border-2 border-stone-300 bg-stone-200 rounded-full drop-shadow-md">
+      <h1 class="text-3xl font-bold text-white">Edit and share musical score</h1>
+    </header>
+    <main class="grow grid grid-cols-2 divide-x">
+      <textarea id="editor" class="row-span-full resize-none p-2"></textarea>
+      <div class="flex flex-col">
+        <div id="score" class="grow bg-white"></div>
+        <div id="audio" class="flex-none"></div>
+      </div>
+    </main>
+    <footer class="flex-none flex flex-nowrap items-baseline p-2 gap-4  bg-orange-700 text-white">
+      <label class="flex-none">Share this URL: </label>
+      <a id="url" class="grow bg-orange-800 p-1">http://test.com</a>
+      <button class="flex-none bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Copy URL</button>
+    </footer>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
