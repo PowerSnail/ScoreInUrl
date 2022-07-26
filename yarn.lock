@@ -23,6 +23,11 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+abcjs@^6.0.4:
+  version "6.0.4"
+  resolved "https://registry.yarnpkg.com/abcjs/-/abcjs-6.0.4.tgz#143a0eb4e08f22558c2805d1902ce5f062eb975c"
+  integrity sha512-KBvDMtCBkbWxr3fhSNXIIDEzq/FGyCLDvA+5/rAS3n8UNNcxgIcb4ZiiHV5d5GGMTrQVPy58apZBZlG7EVQPNQ==
+
 acorn-node@^1.8.2:
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/acorn-node/-/acorn-node-1.8.2.tgz#114c95d64539e53dede23de8b9d96df7c7ae2af8"
