@@ -7,6 +7,7 @@ import { decode_score, encode_score } from './src/url'
 import { default_score } from './src/default_score'
 import { basicSetup } from 'codemirror';
 import { EditorView } from "@codemirror/view"
+import { AbcLanguageSupport } from './src/abc_language';
 
 var label_url = document.getElementById("url")
 var label_warn = document.getElementById("warnings")
@@ -31,6 +32,8 @@ score = score || default_score
 let editor = new EditorView({
     extensions: [
         basicSetup,
+        AbcLanguageSupport,
+        EditorView.lineWrapping,
         EditorView.updateListener.of(function (e) {
             let score = e.state.doc.toString()
             let visualObj = processScore(score)
