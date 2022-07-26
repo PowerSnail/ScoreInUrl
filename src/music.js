@@ -7,6 +7,7 @@ var options = {
 export function processScore(content) {
   var visualObj = abcjs.renderAbc("score", content, options)
   setupAudio(visualObj)
+  return visualObj
 }
 
 
