@@ -28,8 +28,17 @@ btn_copy.addEventListener("click", onBtnCopyClicked)
 label_url.addEventListener("focus", _ => label_url.setSelectionRange(0, label_url.value.length))
 
 function init() {
-    editor.value = decode_score() || default_score
-    onScoreChange()
+    const score = decode_score()
+    if (score != null) {
+        editor.value = score
+        onScoreChange()
+    } else if (window.location.search != "") {
+        alert("Invalid URL, going back to Home")
+        window.location.assign(window.location.origin)
+    } else {
+        editor.value = default_score
+        onScoreChange()
+    }
 }
 
 init()

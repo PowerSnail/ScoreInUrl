@@ -4,8 +4,11 @@ export function decode_score() {
     if (encoded == null) {
         return null
     }
-    let decoded = atob(encoded)
-    return decoded
+    try {
+        return atob(encoded)
+    } catch (e) {
+        return null        
+    }
 }
 
 export function encode_score(content) {
