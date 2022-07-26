@@ -15,6 +15,7 @@
     "vite": "^3.0.0"
   },
   "dependencies": {
-    "abcjs": "^6.0.4"
+    "abcjs": "^6.0.4",
+    "codemirror": "^6.0.1"
   }
 }
