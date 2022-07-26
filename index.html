@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="/icon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Score in URL</title>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://paulrosen.github.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://paulrosen.github.io https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com">
   </head>
   <body class="h-screen w-screen flex flex-col max-w-screen max-h-screen">
     <header class="w-full p-2 flex-none bg-orange-700 flex items-center gap-2">
@@ -13,7 +13,7 @@
       <h1 class="text-3xl font-bold text-white">Edit and share musical score</h1>
     </header>
     <main class="grow grid grid-cols-2 divide-x grid-rows-[1fr_auto] overflow-y-scroll">
-      <textarea id="editor" class="row-span-full resize-none p-2"></textarea>
+      <textarea id="editor" class="row-span-full resize-none p-2 font-mono"></textarea>
       <div class="flex flex-col overflow-hidden">
         <div class="overflow-y-scroll grow h-full max-h-full">
           <div id="score" class="bg-white "></div>
@@ -22,10 +22,15 @@
       </div>
       <div id="warnings" class="col-span-full"></div>
     </main>
-    <footer class="flex-none flex flex-nowrap items-baseline p-2 gap-4  bg-orange-700 text-white">
-      <label class="flex-none">Share this URL: </label>
-      <a id="url" class="grow bg-orange-800 p-1">http://test.com</a>
-      <button class="flex-none bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Copy URL</button>
+    <footer class="flex-none flex flex-nowrap items-center p-2 gap-1  bg-orange-700 text-white">
+      <label class="whitespace-nowrap">Share this URL: </label>
+      <input type="text" id="url" class="grow bg-orange-800 p-1 rounded" readonly>
+      <button id="copy_url" class="bg-orange-800 hover:bg-orange-500 text-white font-bold p-2 rounded">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z" />
+            <path d="M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h8a2 2 0 00-2-2H5z" />
+          </svg>
+      </button>
     </footer>
     <script type="module" src="/main.js"></script>
   </body>

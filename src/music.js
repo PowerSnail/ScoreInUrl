@@ -4,14 +4,11 @@ var options = {
   responsive: "resize",
 };
 
-var editor = document.getElementById("editor")
-
-function onScoreChange() {
-  var visualObj = abcjs.renderAbc("score", editor.value, options)
+export function processScore(content) {
+  var visualObj = abcjs.renderAbc("score", content, options)
   setupAudio(visualObj)
 }
 
-editor.addEventListener("input", onScoreChange)
 
 function setupAudio(visualObj) {
   if (abcjs.synth.supportsAudio()) {
@@ -95,8 +92,6 @@ function CursorControl(rootSelector) {
       self.cursor.setAttribute("y2", ev.top + ev.height);
     }
 
-
-
   };
   self.onFinished = function () {
     self.removeSelection();
@@ -107,50 +102,7 @@ function CursorControl(rootSelector) {
       self.cursor.setAttribute("y1", 0);
       self.cursor.setAttribute("y2", 0);
     }
-
-
   };
 }
 
 var cursorControl = new CursorControl("#score");
-
-// document.querySelector(".start").addEventListener("click", startTimer);
-
-function onEvent(ev) {
-  if (ev)
-    cursorControl.onEvent(ev);
-  else
-    cursorControl.onFinished();
-}
-
-function startTimer() {
-  cursorControl.onStart();
-
-  var timingCallbacks = new abcjs.TimingCallbacks(visualObj[0], {
-    eventCallback: onEvent
-  });
-  timingCallbacks.start();
-}
-
-
-var default_score = `X: 1
-T: Cooley's
-M: 4/4
-L: 1/8
-K: Emin
-|:D2|EB{c}BA B2 EB|~B2 AB dBAG|FDAD BDAD|FDAD dAFD|
-EBBA B2 EB|B2 AB defg|afe^c dBAF|DEFD E2:|
-|:gf|eB B2 efge|eB B2 gedB|A2 FA DAFA|A2 FA defg|
-eB B2 eBgB|eB B2 defg|afe^c dBAF|DEFD E2:|
-|:D2|EB{c}BA B2 EB|~B2 AB dBAG|FDAD BDAD|FDAD dAFD|
-EBBA B2 EB|B2 AB defg|afe^c dBAF|DEFD E2:|
-|:gf|eB B2 efge|eB B2 gedB|A2 FA DAFA|A2 FA defg|
-eB B2 eBgB|eB B2 defg|afe^c dBAF|DEFD E2:|
-|:D2|EB{c}BA B2 EB|~B2 AB dBAG|FDAD BDAD|FDAD dAFD|
-EBBA B2 EB|B2 AB defg|afe^c dBAF|DEFD E2:|
-|:gf|eB B2 efge|eB B2 gedB|A2 FA DAFA|A2 FA defg|
-eB B2 eBgB|eB B2 defg|afe^c dBAF|DEFD E2:|`
-
-var editor = document.getElementById("editor")
-editor.value = default_score
-onScoreChange()
