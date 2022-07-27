@@ -2,7 +2,7 @@ import './src/index.css'
 import './src/music.js'
 import './src/music.css'
 import 'abcjs/abcjs-audio.css';
-import { processScore } from './src/music.js'
+import { loadAudioController, processScore, setAudio } from './src/music.js'
 import { decode_score, encode_score } from './src/url'
 import { default_score } from './src/default_score'
 import { basicSetup } from 'codemirror';
@@ -32,6 +32,10 @@ if (score == null && window.location.search != "") {
 score = score || default_score
 
 let renderTask = null;
+let synthControl = loadAudioController("#audio", "#score")
+if (synthControl == null) {
+    console.error("No audio context")
+}
 
 let editor = new EditorView({
     extensions: [
@@ -49,6 +53,9 @@ let editor = new EditorView({
                 if (encoded != label_url.value) {
                     label_url.value = encoded
                     let visualObj = processScore(score)
+                    if (synthControl) {
+                        setAudio(synthControl, visualObj)
+                    }
                     let diagnostics = makeDiagnostics(visualObj[0].warnings, e.state)
                     editor.dispatch(setDiagnostics(e.state, diagnostics))
                 }

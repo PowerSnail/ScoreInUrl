@@ -5,6 +5,8 @@
 
 export const default_score = `X: 1
 T: Partita III - Preludio
+C: J.S. Bach
+Q: 1/4=80
 M: 3/4
 L: 1/16
 K: Emaj

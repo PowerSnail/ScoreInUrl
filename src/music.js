@@ -1,80 +1,71 @@
 import abcjs from "abcjs"
 
-var options = {
+const options = {
   responsive: "resize",
+};
+
+const controlOptions = {
+  displayRestart: true,
+  displayPlay: true,
+  displayProgress: true,
+  displayClock: true,
 };
 
 export function processScore(content) {
   var visualObj = abcjs.renderAbc("score", content, options)
-  setupAudio(visualObj)
   return visualObj
 }
 
-function setupAudio(visualObj) {
+export function loadAudioController(audioElement, visualElement) {
   if (abcjs.synth.supportsAudio()) {
-    var controlOptions = {
-      displayRestart: true,
-      displayPlay: true,
-      displayProgress: true,
-      displayClock: true
-    };
-    var synthControl = new abcjs.synth.SynthController();
-    synthControl.load("#audio", cursorControl, controlOptions);
-    synthControl.disable(true);
-    var midiBuffer = new abcjs.synth.CreateSynth();
-    midiBuffer.init({
-      visualObj: visualObj[0],
-      options: {
-
-      }
-    }).then(function () {
-      synthControl.setTune(visualObj[0], true).then(function (response) {
-        document.querySelector(".abcjs-inline-audio").classList.remove("disabled");
-      })
-    });
+    let synthControl = new abcjs.synth.SynthController();
+    synthControl.load(audioElement, new CursorControl(visualElement), controlOptions);
+    synthControl.disable(true)
+    return synthControl
   } else {
-    console.log("audio is not supported on this browser");
-  };
+    return null
+  }
+}
+
+export function setAudio(synthControl, visualObj) {
+  synthControl.setTune(visualObj[0], true)
+    .then(_ => document.querySelector(".abcjs-inline-audio").classList.remove("disabled"))
 }
 
 
-function CursorControl(rootSelector) {
-  var self = this;
+class CursorControl {
+  constructor(rootSelector) {
+    this.cursor = null;
+    this.rootSelector = rootSelector;
+  }
 
-  // This demonstrates two methods of indicating where the music is.
-  // 1) An element is created that is moved along for each note.
-  // 2) The currently being played note is given a class so that it can be transformed.
-  self.cursor = null; // This is the svg element that will move with the music.
-  self.rootSelector = rootSelector; // This is the same selector as the renderAbc call uses.
-
-  self.onStart = function () {
+  onStart() {
     // This is called when the timer starts so we know the svg has been drawn by now.
     // Create the cursor and add it to the sheet music's svg.
-    var svg = document.querySelector(self.rootSelector + " svg");
-    self.cursor = document.createElementNS("http://www.w3.org/2000/svg", "line");
-    self.cursor.setAttribute("class", "abcjs-cursor");
-    self.cursor.setAttributeNS(null, 'x1', 0);
-    self.cursor.setAttributeNS(null, 'y1', 0);
-    self.cursor.setAttributeNS(null, 'x2', 0);
-    self.cursor.setAttributeNS(null, 'y2', 0);
-    svg.appendChild(self.cursor);
+    var svg = document.querySelector(this.rootSelector + " svg");
+    this.cursor = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    this.cursor.setAttribute("class", "abcjs-cursor");
+    this.cursor.setAttributeNS(null, 'x1', 0);
+    this.cursor.setAttributeNS(null, 'y1', 0);
+    this.cursor.setAttributeNS(null, 'x2', 0);
+    this.cursor.setAttributeNS(null, 'y2', 0);
+    svg.appendChild(this.cursor);
   };
 
-  self.removeSelection = function () {
+  removeSelection() {
     // Unselect any previously selected notes.
-    var lastSelection = document.querySelectorAll(self.rootSelector + " .abcjs-highlight");
+    var lastSelection = document.querySelectorAll(this.rootSelector + " .abcjs-highlight");
     for (var k = 0; k < lastSelection.length; k++)
       lastSelection[k].classList.remove("abcjs-highlight");
   };
 
 
-  self.onEvent = function (ev) {
-
+  onEvent(ev) {
     // This is called every time a note or a rest is reached and contains the coordinates of it.
     if (ev.measureStart && ev.left === null)
       return; // this was the second part of a tie across a measure line. Just ignore it.
 
-    self.removeSelection();
+    this.removeSelection();
 
     // Select the currently selected notes.
     for (var i = 0; i < ev.elements.length; i++) {
@@ -85,24 +76,22 @@ function CursorControl(rootSelector) {
     }
 
     // Move the cursor to the location of the current note.
-    if (self.cursor) {
-      self.cursor.setAttribute("x1", ev.left - 2);
-      self.cursor.setAttribute("x2", ev.left - 2);
-      self.cursor.setAttribute("y1", ev.top);
-      self.cursor.setAttribute("y2", ev.top + ev.height);
+    if (this.cursor) {
+      this.cursor.setAttribute("x1", ev.left - 2);
+      this.cursor.setAttribute("x2", ev.left - 2);
+      this.cursor.setAttribute("y1", ev.top);
+      this.cursor.setAttribute("y2", ev.top + ev.height);
     }
-
   };
-  self.onFinished = function () {
-    self.removeSelection();
 
-    if (self.cursor) {
-      self.cursor.setAttribute("x1", 0);
-      self.cursor.setAttribute("x2", 0);
-      self.cursor.setAttribute("y1", 0);
-      self.cursor.setAttribute("y2", 0);
+  onFinished() {
+    this.removeSelection();
+
+    if (this.cursor) {
+      this.cursor.setAttribute("x1", 0);
+      this.cursor.setAttribute("x2", 0);
+      this.cursor.setAttribute("y1", 0);
+      this.cursor.setAttribute("y2", 0);
     }
   };
 }
-
-var cursorControl = new CursorControl("#score");
