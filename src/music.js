@@ -10,7 +10,6 @@ export function processScore(content) {
   return visualObj
 }
 
-
 function setupAudio(visualObj) {
   if (abcjs.synth.supportsAudio()) {
     var controlOptions = {

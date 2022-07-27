@@ -8,9 +8,11 @@ import { default_score } from './src/default_score'
 import { basicSetup } from 'codemirror';
 import { EditorView } from "@codemirror/view"
 import { AbcLanguageSupport } from './src/abc_language';
+import { lintGutter, setDiagnostics } from '@codemirror/lint';
+import { makeDiagnostics } from './src/diagnostics';
+
 
 var label_url = document.getElementById("url")
-var label_warn = document.getElementById("warnings")
 var btn_copy = document.getElementById("copyUrl")
 
 btn_copy.addEventListener("click", _ => {
@@ -29,19 +31,32 @@ if (score == null && window.location.search != "") {
 }
 score = score || default_score
 
+let renderTask = null;
+
 let editor = new EditorView({
     extensions: [
         basicSetup,
         AbcLanguageSupport,
+        lintGutter(),
         EditorView.lineWrapping,
         EditorView.updateListener.of(function (e) {
-            let score = e.state.doc.toString()
-            let visualObj = processScore(score)
-            label_warn.innerHTML = visualObj[0].warnings || ""
-            label_url.value = encode_score(score)
+            if (renderTask != null) {
+                clearTimeout(renderTask)
+            }
+            renderTask = setTimeout(() => {
+                let score = e.state.doc.toString()
+                let encoded = encode_score(score)
+                if (encoded != label_url.value) {
+                    label_url.value = encoded
+                    let visualObj = processScore(score)
+                    let diagnostics = makeDiagnostics(visualObj[0].warnings, e.state)
+                    editor.dispatch(setDiagnostics(e.state, diagnostics))
+                }
+            }, 300)
         }),
     ],
     parent: document.getElementById("editorWrapper")
 })
+label_url.value = ""
 editor.dispatch(editor.state.update({ changes: { from: 0, to: 0, insert: score } }))
 document.body.classList.remove("invisible")
