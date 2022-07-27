@@ -5,14 +5,14 @@ export function decode_score() {
         return null
     }
     try {
-        return atob(encoded)
+        return window.atob(encoded)
     } catch (e) {
         return null        
     }
 }
 
 export function encode_score(content) {
-    let encoded = btoa(content)
+    let encoded = window.btoa(content)
     var url = new URL(document.location)
     url.searchParams.set("s", encoded)
     return url.toString()
