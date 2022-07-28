@@ -17,9 +17,95 @@
           src="/icon.svg"
           class="transition-all h-10 border-2 border-stone-300 bg-white rounded-full drop-shadow-md hover:scale-110 active:scale-95"
       /></a>
-      <h1 class="text-3xl font-bold text-white">
+      <h1 class="text-3xl font-bold text-white mr-auto">
         Edit and share musical score
       </h1>
+      <button
+        id="btnHelp"
+        class="text-white transition-scale h-8 w-8 hover:scale-110 active:scale-95"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-8 w-8"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </button>
+      <div
+        id="helpPanel"
+        class="fixed inset-0 bg-slate-900/25 backdrop-blur transition-opacity opacity-100 invisible z-40 flex"
+      >
+        <div
+          class="w-sm max-w-prose bg-slate-50 container place-self-center drop-shadow-xl p-8 rounded-lg mx-auto"
+        >
+          <header class="relative">
+            <button
+              id="btnCloseHelp"
+              class="border border-slate-300 px-4 rounded-md absolute right-0"
+            >
+              close
+            </button>
+          </header>
+          <h2>Help</h2>
+          <p class="leading-relaxed">
+            <strong>Score In URL</strong> lets you write your sheet music in
+            <a href="https://abcnotation.com/" target="_blank">ABC Notation</a>,
+            and share it through a URL, where all the information is
+            self-contained. It's privacy-friendly, as there is nothing stored on
+            a remote server. This website is, in fact, hosted on Github Pages,
+            with no backend whatsoever.
+          </p>
+          <p class="leading-relaxed">
+            <strong>Score In URL</strong> is open source, under
+            <a
+              href="https://raw.githubusercontent.com/PowerSnail/ScoreInUrl/main/LICENSE"
+              target="_blank"
+              >MIT license</a
+            >. You can find the source code on
+            <a href="https://github.com/PowerSnail/ScoreInUrl">Github</a>
+          </p>
+          <h2>On ABC Notation</h2>
+          <p>
+            ABC Notation is a way to write sheet music with plain text. You can
+            learn more about it, by reading the
+            <a
+              href="https://abcnotation.com/wiki/abc:standard:v2.1"
+              target="_blank"
+              >full documentation</a
+            >, or use this
+            <a
+              href="http://www.stephenmerrony.co.uk/uploads/ABCquickRefv0_6.pdf"
+              target="_blank"
+              >cheatsheet</a
+            >
+            as a quick reference.
+          </p>
+          <h2>Examples</h2>
+          <ul class="list-disc">
+            <li>
+              <a
+                href="http://test.mylocalhost.com/?s=VDogUGFydGl0YSBJSUkgLSBQcmVsdWRpbwpDOiBKLlMuIEJhY2gKUTogMS80PTEyMApNOiAzLzQKTDogMS8xNgpLOiBFbWFqCnoyIGUnZCcgZScyYjJnMmIyIHwgKGVmZWQgZTIpQjJHMkIyIHwgRUJGQiBHQkFCIEdCRkIgfApFZWRjIEJlZGMgQkFHRiAgICB8IEVCRkIgR0JBQiBHQkZCICB8IEVlZGMgQmVkYyBCQUdGIHwKRUZHQSBCY2RlIGZnYWYgICAgfCBnYmVmIGdhYmMnIGQnZSdjJ2QnICB8IGUnYmFiIGdiYWIgZ2JmYiB8CmVlJ2QnYycgYmVjJ2UgYmVhZXwgZ2JmYiBnYmFiIGdiZmIgIHwgZWUnZCdjJyBiZWMnZSBiZWFlIHwKZ2VlZWRlZWVmZWRlIHwgZWVnZWZlZ2VhZWZlIHwgZ2VlZWRlZWVmZWRlIHwKZWVnZWZlZ2VhZWZlIHwgZ2VnZSBnZWdlIGdlZ2UgfCBnZWdkIGdlZ2QgZ2VnZCB8CmdlZz1kIGdlZ2QgZ2VnZCB8IGFlYWMgYWVhYyBhZWFjIHwgYWVhQiBhZWFCIGFlYUIgfApnZWdCIGdlZ0IgZ2VnQiB8IGdlZ0EgZ2VnQSBnZWdBIHwgZmVmQSBmZWZBIGZlZkEgfApmZWZHIGZlZkcgZmVmRyB8IGVlZUcgZWVlRyBlZWVHIHwgZWVlRiBlZWVGIGVlZUYgfApkZWRGIGRlZEYgZGVkRiB8IEVGRUYgR0JFRiBHQkVGIHwgR0FHQSBCZUdBIEJlR0EgfA%3D%3D"
+                target="_blank"
+                >Bach Partita 3 Preludio</a
+              >
+            </li>
+            <li>
+              <a
+                href="http://test.mylocalhost.com/?s=VDogQyBNYWpvciBTY2FsZQpMOiAxLzE2Ck06IDIvNApDMkRFIEZHQUIgfCBjMmRlIGZnYWIgfCBjJzJiYSBnZmVkIHwgYzJCQSBHRkVEIHwgQzg%3D"
+                target="_blank"
+              >
+                A simple C Major scale
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </header>
     <main
       class="grow grid grid-cols-2 divide-x grid-rows-[1fr_auto] overflow-y-hidden"

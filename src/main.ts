@@ -54,6 +54,26 @@ function init() {
     "Cannot load audio controller"
   );
 
+  const helpPanel = notNull(
+    document.getElementById("helpPanel"),
+    "Cannot find helpPanel"
+  );
+
+  const btnHelp = <HTMLButtonElement>(
+    notNull(document.getElementById("btnHelp"), "btnHelp not found")
+  );
+  btnHelp.addEventListener("click", () => {
+    helpPanel.classList.remove("invisible");
+  });
+
+  const btnCloseHelp = <HTMLButtonElement>(
+    notNull(document.getElementById("btnCloseHelp"), "btnCloseHelp not found")
+  );
+  
+  btnCloseHelp.addEventListener("click", () => {
+    helpPanel.classList.add("invisible");
+  });
+
   btnCopy.addEventListener("click", () => {
     if (window.isSecureContext) {
       navigator.clipboard.writeText(labelUrl.value);
@@ -83,7 +103,7 @@ function init() {
           labelUrl.value = encoded;
           const visualObj = processScore(score);
           setAudio(synthControl, visualObj);
-          console.log(JSON.stringify(visualObj[0]["warnings"] ?? []))
+          console.log(JSON.stringify(visualObj[0]["warnings"] ?? []));
           editor.dispatch(
             setDiagnostics(
               e.state,
