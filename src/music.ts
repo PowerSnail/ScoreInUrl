@@ -1,6 +1,6 @@
 import abcjs from "abcjs";
 
-const options = {
+const options: abcjs.AbcVisualParams = {
   responsive: "resize",
 };
 
@@ -11,14 +11,13 @@ const controlOptions = {
   displayClock: true,
 };
 
-export function processScore(content) {
-  var visualObj = abcjs.renderAbc("score", content, options);
-  return visualObj;
+export function processScore(content: string) {
+  return abcjs.renderAbc("score", content, options);
 }
 
-export function loadAudioController(audioElement, visualElement) {
+export function loadAudioController(audioElement: string, visualElement: string) {
   if (abcjs.synth.supportsAudio()) {
-    let synthControl = new abcjs.synth.SynthController();
+    const synthControl = new abcjs.synth.SynthController();
     synthControl.load(
       audioElement,
       new CursorControl(visualElement),
@@ -31,16 +30,19 @@ export function loadAudioController(audioElement, visualElement) {
   }
 }
 
-export function setAudio(synthControl, visualObj) {
+export function setAudio(synthControl: abcjs.SynthObjectController, visualObj: abcjs.TuneObjectArray) {
   synthControl
     .setTune(visualObj[0], true)
-    .then((_) =>
-      document.querySelector(".abcjs-inline-audio").classList.remove("disabled")
+    .then(() =>
+      document.querySelector(".abcjs-inline-audio")?.classList.remove("disabled")
     );
 }
 
 class CursorControl {
-  constructor(rootSelector) {
+  cursor: SVGLineElement | null
+  rootSelector: string
+
+  constructor(rootSelector: string) {
     this.cursor = null;
     this.rootSelector = rootSelector;
   }
@@ -48,25 +50,25 @@ class CursorControl {
   onStart() {
     // This is called when the timer starts so we know the svg has been drawn by now.
     // Create the cursor and add it to the sheet music's svg.
-    var svg = document.querySelector(this.rootSelector + " svg");
+    const svg = document.querySelector(this.rootSelector + " svg");
     this.cursor = document.createElementNS(
       "http://www.w3.org/2000/svg",
       "line"
     );
     this.cursor.setAttribute("class", "abcjs-cursor");
-    this.cursor.setAttributeNS(null, "x1", 0);
-    this.cursor.setAttributeNS(null, "y1", 0);
-    this.cursor.setAttributeNS(null, "x2", 0);
-    this.cursor.setAttributeNS(null, "y2", 0);
-    svg.appendChild(this.cursor);
+    this.cursor.setAttributeNS(null, "x1", "0");
+    this.cursor.setAttributeNS(null, "y1", "0");
+    this.cursor.setAttributeNS(null, "x2", "0");
+    this.cursor.setAttributeNS(null, "y2", "0");
+    svg?.appendChild(this.cursor);
   }
 
   removeSelection() {
     // Unselect any previously selected notes.
-    var lastSelection = document.querySelectorAll(
+    const lastSelection = document.querySelectorAll(
       this.rootSelector + " .abcjs-highlight"
     );
-    for (var k = 0; k < lastSelection.length; k++)
+    for (let k = 0; k < lastSelection.length; k++)
       lastSelection[k].classList.remove("abcjs-highlight");
   }
 
@@ -77,17 +79,17 @@ class CursorControl {
     this.removeSelection();
 
     // Select the currently selected notes.
-    for (var i = 0; i < ev.elements.length; i++) {
-      var note = ev.elements[i];
-      for (var j = 0; j < note.length; j++) {
+    for (let i = 0; i < ev.elements.length; i++) {
+      const note = ev.elements[i];
+      for (let j = 0; j < note.length; j++) {
         note[j].classList.add("abcjs-highlight");
       }
     }
 
     // Move the cursor to the location of the current note.
     if (this.cursor) {
-      this.cursor.setAttribute("x1", ev.left - 2);
-      this.cursor.setAttribute("x2", ev.left - 2);
+      this.cursor.setAttribute("x1", (ev.left - 2).toString());
+      this.cursor.setAttribute("x2", (ev.left - 2).toString());
       this.cursor.setAttribute("y1", ev.top);
       this.cursor.setAttribute("y2", ev.top + ev.height);
     }
@@ -97,10 +99,10 @@ class CursorControl {
     this.removeSelection();
 
     if (this.cursor) {
-      this.cursor.setAttribute("x1", 0);
-      this.cursor.setAttribute("x2", 0);
-      this.cursor.setAttribute("y1", 0);
-      this.cursor.setAttribute("y2", 0);
+      this.cursor.setAttribute("x1", "0");
+      this.cursor.setAttribute("x2", "0");
+      this.cursor.setAttribute("y1", "0");
+      this.cursor.setAttribute("y2", "0");
     }
   }
 }
