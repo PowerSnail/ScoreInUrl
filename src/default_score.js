@@ -3,7 +3,7 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-export const default_score = `X: 1
+export const DEFAULT_SCORE = `X: 1
 T: Partita III - Preludio
 C: J.S. Bach
 Q: 1/4=80
