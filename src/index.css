@@ -3,16 +3,25 @@
 @tailwind utilities;
 
 a {
-  @apply underline text-teal-700;
-}
-
-#helpPanel h2 {
-  @apply text-3xl mt-6 mb-4 text-center;
+  @apply underline text-amber-800;
 }
 
 #helpPanel {
   @apply text-lg;
 }
 
-button > * {
+#helpPanel h2 {
+  @apply text-2xl mb-4 mt-6 font-bold;
+}
+
+#helpPanel b {
+  @apply text-amber-800;
+}
+
+#helpPanel p {
+  @apply mt-4 mb-4;
+}
+
+button {
+  @apply hover:bg-amber-500/10 active:brightness-50;
 }

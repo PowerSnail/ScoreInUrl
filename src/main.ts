@@ -98,14 +98,6 @@ function init() {
     sharePanel.classList.remove("invisible");
   });
 
-  const btnCloseHelp = <HTMLButtonElement>(
-    expect(document.getElementById("btnCloseHelp"), "btnCloseHelp not found")
-  );
-
-  btnCloseHelp.addEventListener("click", () => {
-    helpPanel.classList.add("invisible");
-  });
-
   helpPanel.addEventListener("click", (e) => {
     if (e.target == helpPanel) {
       helpPanel.classList.add("invisible");
