@@ -4,3 +4,6 @@
 .abcjs-cursor {
   stroke: red;
 }
+.abcjs-inline-audio {
+  background-color: transparent !important;
+}

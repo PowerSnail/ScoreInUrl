@@ -14,7 +14,7 @@ import { makeDiagnostics } from "./diagnostics";
 const MESSAGE_NO_COPY_CONTEXT =
   "This page is not viewed in a secure context, so copy is unuseable. Please click the url and press ctrl-C to copy.";
 
-function notNull<T>(v: T | null, message: string): T {
+function expect<T>(v: T | null, message: string): T {
   if (v == null) {
     throw new Error(message);
   }
@@ -41,50 +41,90 @@ function init() {
   }
   score = score || DEFAULT_SCORE;
 
-  const labelUrl = <HTMLInputElement>(
-    notNull(document.getElementById("url"), "labelUrl not found")
+  const linkUrl = <HTMLAnchorElement>(
+    expect(document.getElementById("url"), "labelUrl not found")
   );
-  labelUrl.value = "";
+  linkUrl.removeAttribute("href");
 
   const btnCopy = <HTMLButtonElement>(
-    notNull(document.getElementById("copyUrl"), "btnCopy not found")
+    expect(document.getElementById("copyUrl"), "btnCopy not found")
   );
-  const synthControl = notNull(
+
+  const btnDownload = <HTMLButtonElement>(
+    expect(document.getElementById("btnDownload"), "btnDownload not found")
+  );
+
+  const btnPrintScore = <HTMLButtonElement>(
+    expect(document.getElementById("btnPrintScore"), "btnPrintScore not found")
+  );
+
+  const synthControl = expect(
     loadAudioController("#audio", "#score"),
     "Cannot load audio controller"
   );
 
-  const helpPanel = notNull(
+  const helpPanel = expect(
     document.getElementById("helpPanel"),
     "Cannot find helpPanel"
   );
 
-  const btnHelp = <HTMLButtonElement>(
-    notNull(document.getElementById("btnHelp"), "btnHelp not found")
+  const sharePanel = expect(
+    document.getElementById("sharePanel"),
+    "Cannot find sharePanel"
   );
+
+  const scoreWrapper = expect(
+    document.getElementById("score"),
+    "Cannot find score wrapper"
+  );
+
+  const btnHelp = <HTMLButtonElement>(
+    expect(document.getElementById("btnHelp"), "btnHelp not found")
+  );
+
+  const btnShare = <HTMLButtonElement>(
+    expect(document.getElementById("btnShare"), "btnShare not found")
+  );
+
+  const btnSaveImage = <HTMLButtonElement>(
+    expect(document.getElementById("btnSaveImage"), "btnSaveImage not found")
+  );
+
   btnHelp.addEventListener("click", () => {
     helpPanel.classList.remove("invisible");
   });
 
+  btnShare.addEventListener("click", () => {
+    sharePanel.classList.remove("invisible");
+  });
+
   const btnCloseHelp = <HTMLButtonElement>(
-    notNull(document.getElementById("btnCloseHelp"), "btnCloseHelp not found")
+    expect(document.getElementById("btnCloseHelp"), "btnCloseHelp not found")
   );
-  
+
   btnCloseHelp.addEventListener("click", () => {
     helpPanel.classList.add("invisible");
   });
 
+  helpPanel.addEventListener("click", (e) => {
+    if (e.target == helpPanel) {
+      helpPanel.classList.add("invisible");
+    }
+  });
+
+  sharePanel.addEventListener("click", (e) => {
+    if (e.target == sharePanel) {
+      sharePanel.classList.add("invisible");
+    }
+  });
+
   btnCopy.addEventListener("click", () => {
     if (window.isSecureContext) {
-      navigator.clipboard.writeText(labelUrl.value);
+      navigator.clipboard.writeText(linkUrl.href);
     } else {
       alert(MESSAGE_NO_COPY_CONTEXT);
     }
   });
-
-  labelUrl.addEventListener("focus", () =>
-    labelUrl.setSelectionRange(0, labelUrl.value.length)
-  );
 
   const editor = new EditorView({
     extensions: [
@@ -96,14 +136,17 @@ function init() {
         delayed(300, (e) => {
           const score = e.state.doc.toString();
           const encoded = encodeScore(score);
-          if (encoded == labelUrl.value) {
+
+          if (encoded == linkUrl.href) {
             // No update to content
             return;
           }
-          labelUrl.value = encoded;
-          const visualObj = processScore(score);
+          linkUrl.href = encoded;
+          expect(document.getElementById("urlSpan"), "No urlSpan").innerText =
+            encoded;
+          const visualObj = processScore(scoreWrapper, score);
           setAudio(synthControl, visualObj);
-          console.log(JSON.stringify(visualObj[0]["warnings"] ?? []));
+
           editor.dispatch(
             setDiagnostics(
               e.state,
@@ -115,10 +158,42 @@ function init() {
         })
       ),
     ],
-    parent: notNull(
+    parent: expect(
       document.getElementById("editorWrapper"),
       "editor Wrapper not found"
     ),
+  });
+
+  btnDownload.addEventListener("click", () => {
+    synthControl.download("audio.wav");
+  });
+
+  btnPrintScore.addEventListener("click", () => {
+    const w = expect(
+      window.open("", "PRINT", "height=400,width=600"),
+      "Cannot open window"
+    );
+    const d = w.document.body.parentElement;
+    if (d == null) {
+      return;
+    }
+    processScore(d, editor.state.doc.toString());
+    w.print();
+    w.close();
+  });
+
+  btnSaveImage.addEventListener("click", () => {
+    const invisibleElement = document.createElement("div");
+    invisibleElement.style.visibility = "hidden";
+    processScore(invisibleElement, editor.state.doc.toString());
+    const content = invisibleElement.innerHTML.replace(`xmlns:xlink="http://www.w3.org/1999/xlink"`, `xmlns="http://www.w3.org/2000/svg"`)
+    const blob = new Blob([content], {type: "image/svg+xml"});
+    const url = URL.createObjectURL(blob)
+    const downloadLink = document.createElement("a");
+    downloadLink.href = url;
+    downloadLink.download = "score.svg";
+    downloadLink.click()
+    downloadLink.remove()
   });
 
   editor.dispatch(

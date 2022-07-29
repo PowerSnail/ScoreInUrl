@@ -11,8 +11,8 @@ const controlOptions = {
   displayClock: true,
 };
 
-export function processScore(content: string) {
-  return abcjs.renderAbc("score", content, options);
+export function processScore(target: HTMLElement, content: string) {
+  return abcjs.renderAbc(target, content, options);
 }
 
 export function loadAudioController(audioElement: string, visualElement: string) {

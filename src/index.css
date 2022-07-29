@@ -14,6 +14,5 @@ a {
   @apply text-lg;
 }
 
-button {
-  @apply transition-transform hover:scale-110 active:scale-95
+button > * {
 }
