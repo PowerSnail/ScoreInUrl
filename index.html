@@ -9,28 +9,49 @@
       http-equiv="Content-Security-Policy"
       content="default-src 'self' https://paulrosen.github.io https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:"
     />
-    <script type="module" crossorigin src="/ScoreInUrl/assets/index.eaefa1a2.js"></script>
-    <link rel="stylesheet" href="/ScoreInUrl/assets/index.1ace1ef5.css">
+    <script type="module" crossorigin src="/ScoreInUrl/assets/index.c5a5282c.js"></script>
+    <link rel="stylesheet" href="/ScoreInUrl/assets/index.82fcf6c4.css">
   </head>
-  <body class="h-screen w-screen flex flex-col max-w-screen max-h-screen">
-    <header class="w-full p-2 flex-none bg-teal-700 flex items-center gap-2">
-      <a href="/"
-        ><img
+  <body
+    class="h-screen w-screen flex flex-col max-w-screen max-h-screen overflow-hidden"
+  >
+    <header
+      class="w-full p-2 flex-none grid grid-cols-[auto_auto_1fr_auto_auto] items-center gap-2 bg-amber-900 lg:border-b lg:border-slate-900/10 text-slate-100"
+    >
+      <a href="/">
+        <img
           src="/ScoreInUrl/icon.svg"
-          class="transition-all h-10 border-2 border-stone-300 bg-white rounded-full drop-shadow-md hover:scale-110 active:scale-95"
-      /></a>
-      <h1 class="text-3xl font-bold text-white mr-auto">
-        Edit and share musical score
-      </h1>
-      <button
-        id="btnHelp"
-        class="text-white transition-scale h-8 w-8 hover:scale-110 active:scale-95"
-      >
+          class="transition-all h-8 border border-stone-300 bg-white rounded-full drop-shadow-md"
+        />
+      </a>
+      <h1 class="text-3xl font-bold">Score In URL:</h1>
+      <span class="text-3xl text-ellipsis overflow-hidden whitespace-nowrap">
+        Edit and share musical score, all in the URL
+      </span>
+
+      <button id="btnShare" class="h-8 w-8 rounded-lg">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-8 w-8"
+          class="h-6 w-6 m-auto"
           viewBox="0 0 20 20"
           fill="currentColor"
+          height="10"
+          width="10"
+        >
+          <path
+            d="M7.707 10.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V6h5a2 2 0 012 2v7a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h5v5.586l-1.293-1.293zM9 4a1 1 0 012 0v2H9V4z"
+          />
+        </svg>
+      </button>
+
+      <button id="btnHelp" class="h-8 w-8 rounded-lg">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 m-auto"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          height="10"
+          width="10"
         >
           <path
             fill-rule="evenodd"
@@ -39,118 +60,214 @@
           />
         </svg>
       </button>
+
       <div
-        id="helpPanel"
-        class="fixed inset-0 bg-slate-900/25 backdrop-blur transition-opacity opacity-100 invisible z-40 flex"
+        id="sharePanel"
+        class="fixed inset-0 bg-slate-900/25 backdrop-blur transition-opacity opacity-100 invisible z-40 flex p-4"
       >
         <div
-          class="w-sm max-w-prose bg-slate-50 container place-self-center drop-shadow-xl p-8 rounded-lg mx-auto"
+          class="bg-slate-50 w-96 container place-self-center drop-shadow-xl rounded-lg text-slate-900 mx-auto grid grid-cols-2 divide-x divide-y overflow-y-hidden"
         >
-          <header class="relative">
-            <button
-              id="btnCloseHelp"
-              class="border border-slate-300 px-4 rounded-md absolute right-0"
-            >
-              close
-            </button>
-          </header>
-          <h2>Help</h2>
-          <p class="leading-relaxed">
-            <strong>Score In URL</strong> lets you write your sheet music in
-            <a href="https://abcnotation.com/" target="_blank">ABC Notation</a>,
-            and share it through a URL, where all the information is
-            self-contained. It's privacy-friendly, as there is nothing stored on
-            a remote server. This website is, in fact, hosted on Github Pages,
-            with no backend whatsoever.
-          </p>
-          <p class="leading-relaxed">
-            <strong>Score In URL</strong> is open source, under
-            <a
-              href="https://raw.githubusercontent.com/PowerSnail/ScoreInUrl/main/LICENSE"
-              target="_blank"
-              >MIT license</a
-            >. You can find the source code on
-            <a href="https://github.com/PowerSnail/ScoreInUrl">Github</a>
-          </p>
-          <h2>On ABC Notation</h2>
-          <p>
-            ABC Notation is a way to write sheet music with plain text. You can
-            learn more about it, by reading the
-            <a
-              href="https://abcnotation.com/wiki/abc:standard:v2.1"
-              target="_blank"
-              >full documentation</a
-            >, or use this
-            <a
-              href="http://www.stephenmerrony.co.uk/uploads/ABCquickRefv0_6.pdf"
-              target="_blank"
-              >cheatsheet</a
-            >
-            as a quick reference.
-          </p>
-          <h2>Examples</h2>
-          <ul class="list-disc">
-            <li>
-              <a
-                href="./?s=VDogUGFydGl0YSBJSUkgLSBQcmVsdWRpbwpDOiBKLlMuIEJhY2gKUTogMS80PTEyMApNOiAzLzQKTDogMS8xNgpLOiBFbWFqCnoyIGUnZCcgZScyYjJnMmIyIHwgKGVmZWQgZTIpQjJHMkIyIHwgRUJGQiBHQkFCIEdCRkIgfApFZWRjIEJlZGMgQkFHRiAgICB8IEVCRkIgR0JBQiBHQkZCICB8IEVlZGMgQmVkYyBCQUdGIHwKRUZHQSBCY2RlIGZnYWYgICAgfCBnYmVmIGdhYmMnIGQnZSdjJ2QnICB8IGUnYmFiIGdiYWIgZ2JmYiB8CmVlJ2QnYycgYmVjJ2UgYmVhZXwgZ2JmYiBnYmFiIGdiZmIgIHwgZWUnZCdjJyBiZWMnZSBiZWFlIHwKZ2VlZWRlZWVmZWRlIHwgZWVnZWZlZ2VhZWZlIHwgZ2VlZWRlZWVmZWRlIHwKZWVnZWZlZ2VhZWZlIHwgZ2VnZSBnZWdlIGdlZ2UgfCBnZWdkIGdlZ2QgZ2VnZCB8CmdlZz1kIGdlZ2QgZ2VnZCB8IGFlYWMgYWVhYyBhZWFjIHwgYWVhQiBhZWFCIGFlYUIgfApnZWdCIGdlZ0IgZ2VnQiB8IGdlZ0EgZ2VnQSBnZWdBIHwgZmVmQSBmZWZBIGZlZkEgfApmZWZHIGZlZkcgZmVmRyB8IGVlZUcgZWVlRyBlZWVHIHwgZWVlRiBlZWVGIGVlZUYgfApkZWRGIGRlZEYgZGVkRiB8IEVGRUYgR0JFRiBHQkVGIHwgR0FHQSBCZUdBIEJlR0EgfA%3D%3D"
-                target="_blank"
-                >Bach Partita 3 Preludio</a
+          <a class="p-2 col-span-full whitespace-nowrap" id="url">
+            <div class="grid grid-cols-[auto_auto_1fr] items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                viewBox="0 0 20 20"
+                height="10"
+                width="10"
+                fill="currentColor"
               >
-            </li>
-            <li>
-              <a
-                href="./?s=VDogQyBNYWpvciBTY2FsZQpMOiAxLzE2Ck06IDIvNApDMkRFIEZHQUIgfCBjMmRlIGZnYWIgfCBjJzJiYSBnZmVkIHwgYzJCQSBHRkVEIHwgQzg%3D"
-                target="_blank"
+                <path
+                  d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"
+                />
+                <path
+                  d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"
+                />
+              </svg>
+              Go to:
+              <span
+                id="urlSpan"
+                class="text-ellipsis overflow-hidden whitespace-nowrap"
+              ></span>
+            </div>
+          </a>
+
+          <button id="copyUrl" class="p-2">
+            <span class="flex items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                viewBox="0 0 20 20"
+                height="10"
+                width="10"
+                fill="currentColor"
               >
-                A simple C Major scale
-              </a>
-            </li>
-          </ul>
+                <path
+                  fill-rule="evenodd"
+                  d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"
+                  clip-rule="evenodd"
+                />
+                <path d="M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h8a2 2 0 00-2-2H5z" />
+              </svg>
+              Copy URL
+            </span>
+          </button>
+
+          <button id="btnPrintScore" class="p-2">
+            <span class="flex items-center"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                viewBox="0 0 20 20"
+                height="10"
+                width="10"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              Print Score
+            </span>
+          </button>
+
+          <button id="btnSaveImage" class="p-2">
+            <span class="flex items-center"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                viewBox="0 0 20 20"
+                height="10"
+                width="10"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              Save Image
+            </span>
+          </button>
+
+          <button id="btnDownload" class="p-2">
+            <span class="flex items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                width="10"
+                height="10"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z"
+                  clip-rule="evenodd"
+                /></svg
+              >Save Audio</span
+            >
+          </button>
+        </div>
+      </div>
+
+      <div
+        id="helpPanel"
+        class="fixed inset-0 bg-slate-900/25 backdrop-blur transition-opacity opacity-100 invisible z-40 flex p-4"
+      >
+        <div
+          class="w-sm max-w-prose bg-slate-50 container place-self-center text-slate-900 drop-shadow-xl rounded-lg mx-auto max-h-screen overflow-scroll"
+        >
+          <article class="px-8">
+            <h2>About</h2>
+            <p>
+              <b>Score In URL</b> lets you write your sheet music in
+              <a href="https://abcnotation.com/" target="_blank">ABC Notation</a>,
+              and share it through a URL, where all the information is
+              self-contained. It's privacy-friendly, as there is nothing stored on
+              a remote server. This website is, in fact, hosted on Github Pages,
+              with no backend whatsoever.
+            </p>
+            <p>
+              To save the score, simply copy the new URL. <em>Caution</em>: if you refresh
+              the page, all your edit will be lost. Go to the new URL frequently,
+              to prevent data loss.
+            </p>
+            <p>
+              <b>Score In URL</b> is free and open source, under the
+              <a
+                href="https://raw.githubusercontent.com/PowerSnail/ScoreInUrl/main/LICENSE"
+                target="_blank"
+                >MIT license</a
+              >. You can find the source code on
+              <a href="https://github.com/PowerSnail/ScoreInUrl">Github</a>.
+            </p>
+            <h2>ABC Notation</h2>
+            <p>
+              ABC Notation is a way to write sheet music with plain text. You can
+              learn more about it, by reading the
+              <a
+                href="https://abcnotation.com/wiki/abc:standard:v2.1"
+                target="_blank"
+                >full documentation</a
+              >, or use this
+              <a
+                href="http://www.stephenmerrony.co.uk/uploads/ABCquickRefv0_6.pdf"
+                target="_blank"
+                >cheatsheet</a
+              >
+              as a quick reference.
+            </p>
+            <h2>Examples</h2>
+          </article>
+          <nav class="grid grid-cols-2 bg-slate-200 gap-px pt-px">
+            <a
+              href="./?s=VDogUGFydGl0YSBJSUkgLSBQcmVsdWRpbwpDOiBKLlMuIEJhY2gKUTogMS80PTEyMApNOiAzLzQKTDogMS8xNgpLOiBFbWFqCnoyIGUnZCcgZScyYjJnMmIyIHwgKGVmZWQgZTIpQjJHMkIyIHwgRUJGQiBHQkFCIEdCRkIgfApFZWRjIEJlZGMgQkFHRiAgICB8IEVCRkIgR0JBQiBHQkZCICB8IEVlZGMgQmVkYyBCQUdGIHwKRUZHQSBCY2RlIGZnYWYgICAgfCBnYmVmIGdhYmMnIGQnZSdjJ2QnICB8IGUnYmFiIGdiYWIgZ2JmYiB8CmVlJ2QnYycgYmVjJ2UgYmVhZXwgZ2JmYiBnYmFiIGdiZmIgIHwgZWUnZCdjJyBiZWMnZSBiZWFlIHwKZ2VlZWRlZWVmZWRlIHwgZWVnZWZlZ2VhZWZlIHwgZ2VlZWRlZWVmZWRlIHwKZWVnZWZlZ2VhZWZlIHwgZ2VnZSBnZWdlIGdlZ2UgfCBnZWdkIGdlZ2QgZ2VnZCB8CmdlZz1kIGdlZ2QgZ2VnZCB8IGFlYWMgYWVhYyBhZWFjIHwgYWVhQiBhZWFCIGFlYUIgfApnZWdCIGdlZ0IgZ2VnQiB8IGdlZ0EgZ2VnQSBnZWdBIHwgZmVmQSBmZWZBIGZlZkEgfApmZWZHIGZlZkcgZmVmRyB8IGVlZUcgZWVlRyBlZWVHIHwgZWVlRiBlZWVGIGVlZUYgfApkZWRGIGRlZEYgZGVkRiB8IEVGRUYgR0JFRiBHQkVGIHwgR0FHQSBCZUdBIEJlR0EgfA%3D%3D"
+              target="_blank"
+              class="text-center p-2 bg-slate-100"
+              >Bach Partita 3 Preludio</a
+            >
+            <a
+              href="./?s=VDogQyBNYWpvciBTY2FsZQpMOiAxLzE2Ck06IDIvNApDMkRFIEZHQUIgfCBjMmRlIGZnYWIgfCBjJzJiYSBnZmVkIHwgYzJCQSBHRkVEIHwgQzg%3D"
+              target="_blank"
+              class="text-center p-2 bg-slate-100"
+            >
+              A simple C Major scale
+            </a>
+            <a
+            href="./?s=VDogQWlyIG9uIEcgU3RyaW5nCkM6IEouUy4gQmFjaCAoYXJyLiBBdWd1c3QgV2lsaGVsbWouKQpROiAiTGVudG8iCk06IDQvNApMOiAxLzE2Cks6IENtYWoKfDogRTE2LSB8IEUyKEFGIERDQixDKSAoIXRyaWxsIUIsNy8yQSwvMikgRyw0IHwgRzgtIEcoRV9CLEEsKSAoRF5DKShHRikgfCAKRjgtIEYoREEsRywpIChDQiwpKEZFKSB8IChFNiBeRkcpIChDMkMvMkQvMkUpIChFRCkoREMpIHwgKEIsQSwpKEEsLzJCLC8yQykgKEMyQixBLCkgRyw4IDp8IAp8OiAoQiw0LUIsQy8yQiwvMkEsLzJCLC8yRywpIChHNiBfQiwyKSB8IChBLDJBMi0gQSkoR0ZFKSB7L0V9RjQtIEYvMihFLzJELzJDLzJCLEEsKSB8IF5HLEEsKEIsMi0gQixDKShEMi0gREUpRjItIEYyRTIgfAooREMpKEIsQSwpIChCLEMvMkQvMkNCLCkgQSw4IHwgKEM0LSBDRURDKSAoQTYgR15GKSB8ICh7L0V9REdHLDIpIChBLDNCLC8yQy8yKSAoQiw3LzJBLC8yKSBHLDQgfCAKQzYgKEVEKSBENiAoRkUpIHwgRTYgKEdGKSBGOCB8IEcsNC0gRyxCLERGIEZERTItIEUyKEVGLzJHLzIpIHwgCihDNC0gQ0VHX0IpIChCMiBBNCBDMikgfCAoQixEIEY0IEEsMikgKEcsMkRFLzJGLzItIEYpKEUyRCB8IEMvMkIsLzIpKEEsMkIsKSAoQiwyey9BLH1CLEMpIEM4IDp8Cg%3D%3D"
+            target="_blank"
+            class="text-center p-2 bg-slate-100"
+          >
+            Air on G String
+          </a>
+          
+          </nav>
         </div>
       </div>
     </header>
     <main
-      class="grow grid grid-cols-2 divide-x grid-rows-[1fr_auto] overflow-y-hidden"
+      class="grow grid divide-x sm:grid-grid-rows-2 sm:grid-cols-1 lg:grid-cols-2 overflow-y-hidden"
     >
       <div
         id="editorWrapper"
         class="grid bg-slate-50 text-lg w-full overflow-y-scroll"
       ></div>
       <div class="flex flex-col overflow-hidden">
-        <div class="overflow-y-scroll grow h-full max-h-full bg-slate-50">
-          <div id="score"></div>
+        <div class="overflow-y-scroll grow h-full max-h-full bg-slate-50 p-4">
+          <div id="score" class="bg-white drop-shadow-lg"></div>
         </div>
-        <div id="audio" class="flex-none"></div>
       </div>
     </main>
-    <footer
-      class="flex-none flex flex-nowrap items-center p-2 gap-1 bg-teal-700 text-white"
-    >
-      <label class="whitespace-nowrap">Share this URL: </label>
-      <input
-        type="text"
-        id="url"
-        class="grow bg-teal-800 p-1 rounded-l-full"
-        readonly
-      />
-      <button
-        id="copyUrl"
-        class="transition bg-teal-800 hover:scale-110 active:scale-95 text-white font-bold p-2 rounded-r-full"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-4 w-4"
-          viewBox="0 0 20 20"
-          width="20"
-          height="20"
-          fill="currentColor"
-        >
-          <path
-            d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z"
-          />
-          <path d="M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h8a2 2 0 00-2-2H5z" />
-        </svg>
-      </button>
+    <footer class="flex-nonep-2 gap-1 bg-amber-800 text-white">
+      <div
+        id="audio"
+        class="grows text-white rounded-full grid items-center justify-items-stretch h-8 px-1"
+      ></div>
     </footer>
     
   </body>
