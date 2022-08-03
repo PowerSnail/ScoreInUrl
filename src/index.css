@@ -22,6 +22,6 @@ a {
   @apply mt-4 mb-4;
 }
 
-button {
+button, #helpPanel nav a {
   @apply hover:bg-amber-500/10 active:brightness-50;
 }
