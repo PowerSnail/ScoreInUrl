@@ -1,5 +1,4 @@
 import "./index.css";
-import "./music.js";
 import "./music.css";
 import "abcjs/abcjs-audio.css";
 import { loadAudioController, processScore, setAudio } from "./music.js";
