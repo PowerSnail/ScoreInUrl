@@ -12,11 +12,11 @@ export function expectElementById<T extends HTMLElement>(id: string): T {
 type Callable<A> = (...args: A[]) => void;
 
 export function delayed<A>(time_ms: number, task: Callable<A>): Callable<A> {
-  let renderTask: number | null = null;
+  let taskId: number | null = null;
   return (...args: A[]) => {
-    if (renderTask != null) {
-      clearTimeout(renderTask);
+    if (taskId != null) {
+      clearTimeout(taskId);
     }
-    renderTask = setTimeout(() => task(...args), time_ms);
+    taskId = window.setTimeout(() => task(...args), time_ms);
   };
 }
