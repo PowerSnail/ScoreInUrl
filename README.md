@@ -48,3 +48,8 @@ If you'd like to host this project on a sub-path, like I do on [https://powersna
 npm run build -- --base=/subpath/
 ```
 
+Currently, I'm hosting with GitHub Pages, by pushing the destination folder to a separate branch `dist`, and pointing GitHub Pages to that branch.
+
+## Acknowledgement
+
+My utmost gratefulness to [Hashify](https://hashify.me/) for the inspiration. And special thanks to [Hero icons](https://heroicons.com/) for all the icons on this site.
