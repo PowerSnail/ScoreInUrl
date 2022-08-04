@@ -11,8 +11,8 @@ const controlOptions = {
   displayClock: true,
 };
 
-export function processScore(target: HTMLElement, content: string) {
-  return abcjs.renderAbc(target, content, options);
+export function processScore(target: HTMLElement, content: string): abcjs.TuneObject {
+  return abcjs.renderAbc(target, content, options)[0];
 }
 
 export function loadAudioController(audioElement: string, visualElement: string) {
@@ -30,9 +30,9 @@ export function loadAudioController(audioElement: string, visualElement: string)
   }
 }
 
-export function setAudio(synthControl: abcjs.SynthObjectController, visualObj: abcjs.TuneObjectArray) {
+export function setAudio(synthControl: abcjs.SynthObjectController, visualObj: abcjs.TuneObject) {
   synthControl
-    .setTune(visualObj[0], true)
+    .setTune(visualObj, true)
     .then(() =>
       document.querySelector(".abcjs-inline-audio")?.classList.remove("disabled")
     );

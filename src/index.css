@@ -13,7 +13,7 @@ a {
 #helpPanel > div > article {
   /* iOS Safari requires this workaround for z-index + scrolling content.
   Without this, the hidden part is blank even when scrolled into view. */
-  -webkit-transform: translate3d(0, 0, 0); 
+  -webkit-transform: translate3d(0, 0, 0);
 }
 
 #helpPanel h2 {
@@ -31,4 +31,24 @@ a {
 button,
 #helpPanel nav a {
   @apply hover:bg-amber-500/10 active:brightness-50;
+}
+
+.abcjs-highlight {
+  fill: #0a9ecc;
+}
+
+.abcjs-cursor {
+  stroke: red;
+}
+
+.abcjs-inline-audio {
+  background-color: transparent !important;
+}
+
+.abcjs-midi-progress-background {
+  @apply bg-black/30 border-transparent !important;
+}
+
+.abcjs-midi-progress-indicator {
+  @apply drop-shadow-lg;
 }

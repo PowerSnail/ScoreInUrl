@@ -1,5 +1,4 @@
 import "./index.css";
-import "./music.css";
 import "abcjs/abcjs-audio.css";
 import { loadAudioController, processScore, setAudio } from "./music.js";
 import { basicSetup } from "codemirror";
@@ -66,15 +65,14 @@ function init() {
 
   function updateScore(score: string, state: EditorState) {
     const encoded = encodeScore(score);
-
     history.replaceState(null, "", encoded);
-    const visualObj = processScore(scoreWrapper, score);
-    setAudio(synthControl, visualObj);
+    const tune = processScore(scoreWrapper, score);
+    setAudio(synthControl, tune);
 
     editor.dispatch(
       setDiagnostics(
         state,
-        Array.from(makeDiagnostics(visualObj[0]["warnings"] ?? [], state))
+        Array.from(makeDiagnostics(tune["warnings"] ?? [], state))
       )
     );
   }
