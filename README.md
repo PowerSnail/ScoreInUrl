@@ -2,9 +2,9 @@
 
 ![Screenshot](docs/Screenshot.webp)
 
-**Score In URL** lets you write your sheet music in [ABC Notation](https://abcnotation.com/), and share it through a URL, where all the information is self-contained. It's heavily inspired by the great project: [Hashify](https://hashify.me/), which does the same thing with Markdown documents.
+**Score In URL** lets you write your sheet music in [ABC Notation](https://abcnotation.com/), and share it through a URL, where all content of the score is encoded (base64) as a query parameter. It's heavily inspired by the great project: [Hashify](https://hashify.me/), which does a similar thing with Markdown documents.
 
-**Score In URL** privacy-friendly, as there is nothing stored on a remote server. This website is, in fact, hosted on GitHub Pages, with no backend whatsoever.
+It is privacy-friendly, as there is nothing stored on a remote server. This website is, in fact, hosted on GitHub Pages, with no backend whatsoever.
 
 **Score In URL** is free and open source, under the [MIT license](https://raw.githubusercontent.com/PowerSnail/ScoreInUrl/main/LICENSE). You can find the source code on [GitHub](https://github.com/PowerSnail/ScoreInUrl).
 
