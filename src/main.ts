@@ -28,14 +28,13 @@ C6 (ED) D6 (FE) | E6 (GF) F8 | G,4- G,B,DF FDE2- E2(EF/2G/2) |
 `;
 
 function decodeScore(): string {
-  console.info("decode score: " + window.location.href);
-  const params = new URL(window.location.href).searchParams;
+  const params = new URLSearchParams(window.location.search)
   const encoded = params.get("s");
   if (encoded != null) {
     try {
       return window.atob(encoded);
     } catch (e) {
-      alert("URL not valid. Redirecting back home...");
+      alert("URL not valid. Showing default score...");
     }
   }
   return DEFAULT_SCORE
